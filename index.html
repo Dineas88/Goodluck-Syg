@@ -8,16 +8,24 @@
   <style>
     body {
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #ff9a9e, #fad0c4, #fbc2eb);
+      background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fbc2eb, #a18cd1);
+      background-size: 400% 400%;
+      animation: gradient 10s ease infinite;
       height: 100vh;
       margin: 0;
-      overflow: hidden;
       display: flex;
       justify-content: center;
       align-items: center;
       flex-direction: column;
       color: #333;
+      overflow: hidden;
       position: relative;
+    }
+
+    @keyframes gradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
     h1 {
@@ -33,43 +41,6 @@
       margin-bottom: 1.5rem;
       color: #555;
       animation: fadeInUp 1.5s ease-in-out;
-    }
-
-    .heart {
-      font-size: 3rem;
-      animation: beat 1.2s infinite;
-      color: #ff6f61;
-    }
-
-    @keyframes beat {
-      0%, 100% {
-        transform: scale(1);
-      }
-      50% {
-        transform: scale(1.3);
-      }
-    }
-
-    @keyframes fadeInDown {
-      from {
-        opacity: 0;
-        transform: translateY(-50px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(50px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
     }
 
     .card {
@@ -98,10 +69,6 @@
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
     }
 
-    .button-container {
-      margin-top: 20px;
-    }
-
     button {
       font-size: 1rem;
       padding: 12px 24px;
@@ -120,165 +87,103 @@
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
     }
 
-    .hidden-message {
-      margin-top: 20px;
-      display: none;
-      font-size: 1.5rem;
-      color: #555;
-      animation: fadeIn 1s ease-in-out forwards;
-    }
-
-    .confetti {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      overflow: hidden;
-    }
-
-    .confetti span {
-      position: absolute;
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: #ff6f61;
-      opacity: 0.8;
-      animation: fall 4s linear infinite;
-    }
-
-    @keyframes fall {
-      from {
-        transform: translateY(-100vh) rotate(0deg);
-      }
-      to {
-        transform: translateY(100vh) rotate(720deg);
-        opacity: 0;
-      }
-    }
-
-    .confetti span:nth-child(odd) {
-      animation-duration: 3s;
-      background: #fad0c4;
-    }
-
-    .confetti span:nth-child(even) {
-      animation-duration: 4.5s;
-      background: #fbc2eb;
-    }
-
-    .surprise {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(0, 0, 0, 0.9);
-      z-index: 10;
-      color: white;
-      font-size: 2rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      text-align: center;
-      border: 5px solid #ff6f61;
-      border-radius: 20px;
-      animation: fadeIn 0.8s ease-in-out;
-    }
-
-    .close {
-      margin-top: 20px;
-      padding: 10px 20px;
-      background-color: white;
-      color: #ff6f61;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.3s;
-    }
-
-    .close:hover {
-      background-color: #ff6f61;
-      color: white;
-    }
-
     .countdown {
       font-size: 1.2rem;
       margin-top: 20px;
       color: #333;
     }
+
+    .checklist {
+      margin: 20px 0;
+      text-align: left;
+    }
+
+    .checklist input {
+      margin-right: 10px;
+    }
+
+    .floating-hearts {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: #ff6f61;
+      border-radius: 50%;
+      animation: floatUp 3s infinite ease-in-out;
+      pointer-events: none;
+    }
+
+    @keyframes floatUp {
+      from {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+      to {
+        transform: translateY(-200px) scale(0.5);
+        opacity: 0;
+      }
+    }
   </style>
 </head>
 <body>
-  <div class="confetti" id="confetti"></div>
   <div class="card">
     <h1>Good Luck Chellom! ❤</h1>
     <h2>You're my smartest Dentist Baby! 🦷👑</h2>
     <img src="Us.jpg" alt="Our Picture">
     <p>Tomorrow is your time to shine. Believe in yourself as much as I believe in you. You're going to ace this exam like a true star! 🌟</p>
-    <div class="heart">💖</div>
-    <div class="button-container">
-      <button onclick="showMessage()">Click for Your Surprise</button>
+    <button onclick="playAudio()">🎵 Play Your Motivational Audio</button>
+    <button onclick="showSurprise()">Click for Surprise Fireworks</button>
+
+    <div class="checklist">
+      <h3>Exam Readiness Checklist:</h3>
+      <label><input type="checkbox"> Calculator packed</label><br>
+      <label><input type="checkbox"> Pens & pencils ready</label><br>
+      <label><input type="checkbox"> Notes reviewed</label><br>
+      <label><input type="checkbox"> Confidence boosted! 💪</label>
     </div>
-    <div class="hidden-message" id="hiddenMessage">
-      You're my inspiration and the most brilliant person I know. <br> Stay calm, stay confident, and conquer your dreams! <br> I'll always be here, cheering for you! 🥰
-    </div>
+
     <div class="countdown" id="countdown"></div>
   </div>
 
-  <div class="surprise" id="surprise">
-    🌟 Surprise! 🌟<br>
-    You are my world, my brightest star, and my forever queen. <br>
-    Keep shining, baby! You got this. 🥳<br>
-    <button class="close" onclick="hideSurprise()">Close</button>
-  </div>
-
   <script>
-    const confettiContainer = document.getElementById('confetti');
-
-    // Create confetti
-    for (let i = 0; i < 150; i++) {
-      const confettiPiece = document.createElement('span');
-      confettiPiece.style.left = Math.random() * 100 + '%';
-      confettiPiece.style.animationDelay = Math.random() * 3 + 's';
-      confettiPiece.style.backgroundColor = ['#ff6f61', '#fad0c4', '#fbc2eb'][Math.floor(Math.random() * 3)];
-      confettiContainer.appendChild(confettiPiece);
-    }
-
-    function showMessage() {
-      const message = document.getElementById('hiddenMessage');
-      message.style.display = 'block';
-      setTimeout(() => {
-        document.getElementById('surprise').style.display = 'flex';
-      }, 1000);
-    }
-
-    function hideSurprise() {
-      document.getElementById('surprise').style.display = 'none';
-    }
-
     // Countdown Timer
     const countdown = document.getElementById('countdown');
-    const examTime = new Date('2025-01-07T09:00:00');
+    const examTime = new Date(new Date().getTime() + 40 * 60 * 1000); // 40 mins from now
 
     function updateCountdown() {
       const now = new Date();
       const timeLeft = examTime - now;
-      const hours = Math.floor(timeLeft / (1000 * 60 * 60));
       const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
 
       if (timeLeft > 0) {
-        countdown.textContent = `Time left until your exam: ${hours}h ${minutes}m ${seconds}s`;
+        countdown.textContent = `Time left until your exam: ${minutes}m ${seconds}s`;
       } else {
         countdown.textContent = "It's time to shine! Good luck!";
       }
     }
 
     setInterval(updateCountdown, 1000);
+
+    // Play Motivational Audio
+    function playAudio() {
+      const audio = new Audio('motivation.mp3');
+      audio.play();
+    }
+
+    // Surprise Fireworks
+    function showSurprise() {
+      alert("Surprise! 🌟 Fireworks for my Dentist Baby! 🎆🎇");
+    }
+
+    // Floating Hearts Effect
+    document.body.addEventListener('mousemove', (e) => {
+      const heart = document.createElement('div');
+      heart.className = 'floating-hearts';
+      heart.style.left = e.pageX + 'px';
+      heart.style.top = e.pageY + 'px';
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 3000);
+    });
   </script>
 </body>
 </html>
